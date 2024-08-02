@@ -100,7 +100,7 @@
             </div>
         </div>
         <div class="ml-8 mt-8 xxl:mt-0 xxl:ml-auto line" x-show="params.pRecap !== ''">
-            <h4 class="font-bold text-lg">Student</h4>
+            <h4 class="font-bold text-lg">Grade Average</h4>
             <!-- <pre x-text="JSON.stringify(students)"></pre> -->
             <!-- <img src="images/loading.gif" alt="" class="h-6"> -->
             <div x-show="students.length === 0">
@@ -109,15 +109,17 @@
             <div style="display: flex;" x-show="students.length !== 0">
                 <table>
                     <tr>
-                        <th>RegNo</th>
-                        <th>Name</th>
-                        <th>CGPA</th>
+                        <th>S #</th>
+                        <th>Grade</th>
+                        <th>Total</th>
+                        <th>Percentage %</th>
                     </tr>
-                    <template x-for="Std in students">
+                    <template x-for="(Std, index) in students">
                         <tr>
-                            <td x-text="Std.regno"></td>
-                            <td x-text="Std.name"></td>
-                            <td x-text="Std.cgpa"></td>
+                            <td x-text="index+1"></td>
+                            <td x-text="Std.grade"></td>
+                            <td x-text="Std.total"></td>
+                            <td x-text="Std.per"></td>
                         </tr>
                     </template>
                 </table>

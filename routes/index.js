@@ -62,17 +62,28 @@ router.get(`/batch/:year/:semester/:batch`, async (req, res) => {
 router.get(`/recap/:rid`, async (req, res) => {
     try {
         const { rid } = req.params;
-        const query = await sql`SELECT DISTINCT(s.regno), t.name, (
-                        SELECT ROUND(SUM(gpa * cr) / SUM(cr)::DECIMAL, 2) AS CGPA
-                        FROM (
-                            SELECT m.regno, m.marks, m.rid,ROUND(marks) as rmarks, r.Semester, r.Year, r.Class,r.fid, c.cid, c.code, c.title, c.theory, c.lab, g.grade, g.gpa, c.theory + c.lab as cr
-                            FROM cmarks m, grade g, recap r, course c
-                            WHERE 1=1 AND m.rid = r.rid AND r.cid = c.cid AND regno = s.regno AND hid = 246 AND g.gpa <> 0
-                            AND ROUND(marks) BETWEEN g.start AND g.end) A
-                        ) CGPA
-                    FROM cmarks s, student t
-                    WHERE rid = ${rid}
-                    AND s.regno = t.regno`;
+        const query = await sql`SELECT *,  CAST(total AS FLOAT) * 100 / CAST(SUM AS FLOAT) Per
+                                FROM (
+                                    SELECT * , (
+                                        SELECT SUM(total)
+                                        FROM (
+                                            SELECT g.grade, COUNT(g.grade) total 
+                                            FROM cmarks m, grade g
+                                            WHERE rid = A.rid
+                                            AND hid = 246
+                                            AND ROUND(marks) BETWEEN g.start AND g.end
+                                            GROUP BY g.grade
+                                        ) B
+                                    ) SUM
+                                    FROM (
+                                    SELECT rid, g.grade, COUNT(g.grade) total 
+                                    FROM cmarks m, grade g
+                                    WHERE m.rid = ${rid}
+                                    AND hid = 246
+                                    AND ROUND(marks) BETWEEN g.start AND g.end
+                                    GROUP BY m.rid, g.grade
+                                    ) A
+                                ) C`;
         console.log(query)
         res.status(200).json(query);
     } catch (err) {
