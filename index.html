@@ -54,7 +54,7 @@
             <a href="#" @click="Reset()" class="">Reset</a>
             <h4 class="font-bold text-lg">Year</h4>
             <!-- <pre x-text="JSON.stringify(years)"></pre> -->
-            <div style="display: flex;">
+            <div style="display: flex; flex-wrap: wrap;">
                 <template x-for="Yr in years">
                     <div :class="{ 'active': Yr.year === params[`pYear`] }" class="px-3">
                         <a href="#" x-text="Yr.year" class=""
@@ -66,7 +66,7 @@
         <div class="ml-8 mt-8 xxl:mt-0 xxl:ml-auto line" x-show="params.pYear !== ''">
             <h4 class="font-bold text-lg">Semesters</h4>
             <!-- <pre x-text="JSON.stringify(semesters)"></pre> -->
-            <div style="display: flex;">
+            <div style="display: flex; flex-wrap: wrap;">
                 <template x-for="Sem in semesters">
                     <div :class="{ 'active': Sem.semester === params[`pSem`]}" class="px-3">
                         <a href="#" x-text="Sem.semester" class=""
