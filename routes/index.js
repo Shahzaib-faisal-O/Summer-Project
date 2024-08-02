@@ -41,6 +41,7 @@ router.get(`/batch/:year/:semester`, async (req, res) => {
     try {
         const { year, semester } = req.params;
         const batches = await sql`SELECT DISTINCT(Class) FROM recap WHERE Year = ${year} AND Semester = ${semester} ORDER BY Class;`;
+        console.log(batches)
         res.status(200).json(batches);
     } catch (err) {
         res.status(500).send(err.message);
@@ -51,6 +52,7 @@ router.get(`/batch/:year/:semester/:batch`, async (req, res) => {
     try {
         const { year, semester, batch } = req.params;
         const recaps = await sql`SELECT r.*, c.title FROM recap r, course c WHERE r.cid = c.cid AND Year = ${year} AND Semester = ${semester} AND Class = ${batch};`;
+        console.log(recaps)
         res.status(200).json(recaps);
     } catch (err) {
         res.status(500).send(err.message);
@@ -70,7 +72,8 @@ router.get(`/recap/:rid`, async (req, res) => {
                         ) CGPA
                     FROM cmarks s, student t
                     WHERE rid = ${rid}
-                    AND s.regno = t.regno`
+                    AND s.regno = t.regno`;
+        console.log(query)
         res.status(200).json(query);
     } catch (err) {
         res.status(500).send(err.message);

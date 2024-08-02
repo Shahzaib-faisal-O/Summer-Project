@@ -15,5 +15,10 @@
           "Access-Control-Allow-Origin": "*"
         }
       }
-    ]
+    ],
+    "functions": {
+        "api/**/*": {
+          "maxDuration": 15 // These functions can run for a maximum of 15 seconds
+        }
+      }    
   }
