@@ -1,27 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="//unpkg.com/alpinejs" defer></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script type="" src="app.js"></script>
+    <style>
+        html {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+            font-size: 12px;
+        }
+
+        a:hover{
+            text-decoration-line: underline;
+        }
+
+        table,
+        th,
+        tr,
+        td {
+            border-collapse: collapse;
+            border: 1px solid #808080;
+        }
+
+        td {
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+
+        .active {
+            background-color: hsl(132, 95%, 76%);
+        }
+
+        h4{
+            color: #336BFF;
+        }
+        
+        .line {
+            /* border: 1px solid #d3d3d3; */
+        }
+    </style>
     <title>Alpine JS</title>
 </head>
-<body>
-    <h1>Alpine JS</h1>
 
- 
-    <div x-data="{ open: false }">
-        <button @click="open = true">Expand</button>
-     
-        <span x-show="open">
-            Content...
-        </span>
-    </div>    
+<body x-data="App()" x-init="getYears()" class="p-10">
+    <!-- <div class="ml-8 xxl:mt-0 xxl:ml-auto line">
+        <a href="#" @click="Reset()" class="">Reset</a>
+    </div> -->
+    <div style="display: flex; flex-direction: column;">
+        <div class="ml-8 mt-8 xxl:mt-0 xxl:ml-auto line">
+            <a href="#" @click="Reset()" class="">Reset</a>
+            <h4 class="font-bold text-lg">Year</h4>
+            <!-- <pre x-text="JSON.stringify(years)"></pre> -->
+            <div style="display: flex;">
+                <template x-for="Yr in years">
+                    <div :class="{ 'active': Yr.year === params[`pYear`] }" class="px-3">
+                        <a href="#" x-text="Yr.year" class=""
+                            @click="getSemester(`${Yr.year}`)"></a>
+                    </div>
+                </template>
+            </div>
+        </div>
+        <div class="ml-8 mt-8 xxl:mt-0 xxl:ml-auto line" x-show="params.pYear !== ''">
+            <h4 class="font-bold text-lg">Semesters</h4>
+            <!-- <pre x-text="JSON.stringify(semesters)"></pre> -->
+            <div style="display: flex;">
+                <template x-for="Sem in semesters">
+                    <div :class="{ 'active': Sem.semester === params[`pSem`]}" class="px-3">
+                        <a href="#" x-text="Sem.semester" class=""
+                            @click="getBatch(`${Sem.semester}`)"></a>
+                    </div>
+                </template>
+            </div>
+        </div>
+        <div class="ml-8 mt-8 xxl:mt-0 xxl:ml-auto line" x-show="params.pSem !== ''">
+            <h4 class="font-bold text-lg">Batches</h4>
+            <!-- <pre x-text="JSON.stringify(batches)"></pre> -->
+            <div style="display: flex; flex-wrap: wrap;">
+                <template x-for="Bat in batches">
+                    <div :class="{ 'active': Bat.class === params[`pBatch`] }" class="px-3">
+                        <a href="#" x-text="Bat.class" class=""
+                            @click="getClass(`${Bat.class}`)"></a>
+                    </div>
+                </template>
+            </div>
+        </div>
+        <div class="ml-8 mt-8 xxl:mt-0 xxl:ml-auto line" x-show="params.pBatch !== ''">
+            <h4 class="font-bold text-lg">Recaps</h4>
+            <!-- <pre x-text="JSON.stringify(batches)"></pre> -->
+            <div style="display: flex; flex-wrap: wrap;">
+                <template x-for="Rc in recaps">
+                    <div :class="{ 'active': Rc.rid === Number(params[`pRecap`]) }" class="px-3">
+                        <a href="#" x-text="Rc.title" class=""
+                            @click="getRecap(`${Rc.rid}`)"></a>
+                    </div>
+                </template>
+            </div>
+        </div>
+        <div class="ml-8 mt-8 xxl:mt-0 xxl:ml-auto line" x-show="params.pRecap !== ''">
+            <h4 class="font-bold text-lg">Student</h4>
+            <!-- <pre x-text="JSON.stringify(students)"></pre> -->
+            <!-- <img src="images/loading.gif" alt="" class="h-6"> -->
+            <div x-show="students.length === 0">
+                <img src="images/loading.gif" alt="" class="h-6">
+            </div>
+            <div style="display: flex;" x-show="students.length !== 0">
+                <table>
+                    <tr>
+                        <th>RegNo</th>
+                        <th>Name</th>
+                        <th>CGPA</th>
+                    </tr>
+                    <template x-for="Std in students">
+                        <tr>
+                            <td x-text="Std.regno"></td>
+                            <td x-text="Std.name"></td>
+                            <td x-text="Std.cgpa"></td>
+                        </tr>
+                    </template>
+                </table>
+            </div>
+        </div>
+
+        <!-- <pre x-text="JSON.stringify({params, index}, null, 4)"></pre> -->
+    </div>
 </body>
-<script>
-    (async()=>{
-        console.log(await fetch(`/api/faculty`).then(res => res.json()));
 
-    })();
-</script>
 </html>
+
+<!-- 
+
+{
+    "course_id": "BIO-101",
+    "title": "Intro. to Biology",
+    "dept_name": "Biology",
+    "credits": 4
+}
+
+-->
