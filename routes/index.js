@@ -40,8 +40,8 @@ router.get("/semesters", async (req, res) => {
 router.get(`/batch/:year/:semester`, async (req, res) => {
     try {
         const { year, semester } = req.params;
-        const batches = await sql`SELECT DISTINCT(Class) FROM recap WHERE Year = ${year} AND Semester = ${semester} ORDER BY Class;`;
-	batches = batches.sort((a, b) => a.class.length - b.class.length)
+        let batches = await sql`SELECT DISTINCT(Class) FROM recap WHERE Year = ${year} AND Semester = ${semester} ORDER BY Class;`;
+	    batches = batches.sort((a, b) => a.class.length - b.class.length)
         console.log(batches)
         res.status(200).json(batches);
     } catch (err) {
