@@ -1,0 +1,33 @@
+       html {
+           font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+           font-size: 12px;
+       }
+
+       a:hover {
+           text-decoration-line: underline;
+       }
+
+       table,
+       th,
+       tr,
+       td {
+           border-collapse: collapse;
+           border: 1px solid #d3d3d3;
+       }
+
+       td {
+           margin-left: 5px;
+           margin-right: 5px;
+       }
+
+       .active {
+           background-color: hsl(132, 95%, 76%);
+       }
+
+       h4 {
+           color: #336BFF;
+       }
+
+       .line {
+           /* border: 1px solid #d3d3d3; */
+       }

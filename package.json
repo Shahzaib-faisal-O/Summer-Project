@@ -2,10 +2,11 @@
   "name": "vercel-deploy",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "App.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon -e js,html index.js"
+    "start": "nodemon -e js,html App.js",
+    "dev": "nodemon App.js"
   },
   "keywords": [],
   "author": "",
